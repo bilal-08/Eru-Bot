@@ -16,10 +16,17 @@ let handler = async (m, { conn, args  , usedPrefix, command }) => {
           if (!img) throw `reply image with caption *${usedPrefix + command}*`
      sticker = await new Sticker(img, {type: 'full', pack : pack[0] || global.packname , author : pack[1] || global.author, categories : "❤"}).build()
   }else if (/video/.test(mime)) {
-    m.reply(`stickerGIF with this command is in under development use ${usedPrefix}stickergif`)
+    if ((q.msg || q).seconds > 11) return m.reply('Maximum 10 seconds!')
+      let img = await q.download()
+      if (!img) throw `reply image with caption *${usedPrefix + command}*`
+      sticker = await new Sticker(img, {type: 'full', pack : pack[0] || global.packname , author : pack[1] || global.author, categories : "❤"}).build()
+    // m.reply(`stickerGIF with this command is in under development use ${usedPrefix}stickergif`)
 
 }else if (/webp/.test(mime)) {
-  m.reply(`stickerGIF with this command is in under development use ${usedPrefix}stickergif`)
+  let img = await q.download()
+      if (!img) throw `reply image with caption *${usedPrefix + command}*`
+      sticker = await new Sticker(img, {type: 'full', pack : pack[0] || global.packname , author : pack[1] || global.author, categories : "❤"}).build()
+  // m.reply(`stickerGIF with this command is in under development use ${usedPrefix}stickergif`)
   }else if (args[0]) {
     if (isUrl(args[0])) Sticker(img, {type: 'full',pack : global.packname , author : global.author, categories : "❤"}).build()
     else return m.reply('Invalid Url!')
@@ -30,12 +37,13 @@ let handler = async (m, { conn, args  , usedPrefix, command }) => {
         if (sticker) conn.sendMessage(m.chat, sticker, MessageType.sticker, {
             quoted: m
           })
-        // else throw 'Conversion failed'
+        else throw 'Conversion failed'
 
 
     }
 
 
     }
+
     handler.command = /^sticker?$/i
-module.exports = handler
+  module.exports = handler

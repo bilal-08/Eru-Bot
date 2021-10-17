@@ -148,20 +148,23 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
     }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
     // conn.reply(m.chat, text.trim(), m)
-    conn.sendFile(m.chat, oreki, 'oreki.jpg', text.trim(), {
-      key: {
-        remoteJid: 'status@broadcast',
-        participant: '0@s.whatsapp.net',
-        fromMe: false
-      },
-      message: {
-        "imageMessage": {
-          "mimetype": "image/jpeg",
-          caption: `${conn.user.name} Verified Bot`,
-           "jpegThumbnail": fs.readFileSync("./src/oreki.jpg")
-  }
-    }
-    }, m, { contextInfo: { mentionedJid: [m.sender] } })
+  let img =  fs.readFileSync('./src/oreki.jpg')
+img = await conn.prepareMessage("0@s.whatsapp.net", img, "imageMessage")
+const buttons = [
+{buttonId: '/owner', buttonText: {displayText: 'owner'}, type: 1},
+
+{buttonId: '/ping', buttonText: {displayText: 'ping'}, type: 1}
+
+]
+const buttonsMessage = {
+    contentText: text,
+    footerText:  `${conn.user.name}`,
+    buttons: buttons,
+    headerType: 4,
+imageMessage: img.message.imageMessage
+}
+const sendMsg = await conn.prepareMessageFromContent(m.chat,{buttonsMessage}, {quoted: m})
+conn.relayWAMessage(sendMsg)'
     
   } catch (e) {
   conn.reply(m.chat, 'Sorry, the menu is in error', m)
