@@ -46,6 +46,8 @@ if (!global.DATABASE.data.chats) global.DATABASE.data.chats = {}
 if (!global.DATABASE.data.stats) global.DATABASE.data.stats = {}
 if (!global.DATABASE.data.stats) global.DATABASE.data.msgs = {}
 global.conn = new WAConnection()
+
+if (fs.existsSync(authFile)) conn.loadAuthInfo(authFile)
 let authFile = `${opts._[0] ||ID || 'session'}.data.json`
 if (opts['trace']) conn.logger.level = 'trace'
 if (opts['debug']) conn.logger.level = 'debug'
@@ -102,7 +104,6 @@ if (opts['test']) {
     }
   }
 
-if (fs.existsSync(authFile)) conn.loadAuthInfo(authFile)
   conn.sendMessage = async (chatId, content, type, opts = {}) => {
     let message = await conn.prepareMessageContent(content, type, opts)
     let waMessage = conn.prepareMessageFromContent(chatId, message, opts)
