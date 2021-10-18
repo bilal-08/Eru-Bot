@@ -18,7 +18,7 @@ let WAConnection = simple.WAConnection(_WAConnection)
 const mongoose = require('mongoose');
 const db = mongoose.connection
 
-mongoose.connect(encodeURI('mongodb+srv://billa:billasenpai@cluster0.6bhqd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')), {
+mongoose.connect(encodeURI(process.env.MONGO_URI)), {
     useNewUrlParser: true,
     useUnifiedTopology: true
 };
@@ -47,8 +47,8 @@ if (!global.DATABASE.data.stats) global.DATABASE.data.stats = {}
 if (!global.DATABASE.data.stats) global.DATABASE.data.msgs = {}
 global.conn = new WAConnection()
 
-if (fs.existsSync(authFile)) conn.loadAuthInfo(authFile)
 let authFile = `${opts._[0] ||ID || 'session'}.data.json`
+if (fs.existsSync(authFile)) conn.loadAuthInfo(authFile)
 if (opts['trace']) conn.logger.level = 'trace'
 if (opts['debug']) conn.logger.level = 'debug'
 if (opts['big-qr'] || opts['server']) conn.on('qr', qr => generate(qr, { small: false }))
