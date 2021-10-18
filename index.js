@@ -74,4 +74,8 @@ function start(file) {
   // console.log(p)
 }
 
-start('main.js')
+setTimeout(() => {
+  console.log('10 SEC')
+  start('main.js')
+}, 10000);
+
