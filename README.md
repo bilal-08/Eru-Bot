@@ -14,7 +14,7 @@ alt="Chitanda eru bot" border="0">
  #### **Hosting on Heroku**
  Simple WhatsApp Bot
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Oreki-san/Eru-Bot)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ### 📌 Hosting Guide
 - [Eru-Guide](https://github.com/Oreki-san/Eru-Guide/blob/main/README.md)
